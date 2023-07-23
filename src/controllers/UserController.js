@@ -98,13 +98,27 @@ class UserController {
       await User.findByIdAndUpdate({ _id: id }, newData, { new: true });
       res.json({
         message: "Add User Successfully!",
-
         statusCode: 200,
       });
     } catch (e) {
       res.status(422).json(e);
     }
   }
+
+  async editImageUser(req, res) {
+    try {
+        const { user,url } = req.body;
+        await User.updateOne({_id: user. _id}, {
+            ...user,
+            file: url
+        })
+        res.json({message: 'Edit image User Successfully!', statusCode: 200});
+    }
+    catch (e) {
+        res.status(422).json(e)
+    }
+  }
+
   async getListUser(req, res) {
     try {
       const listUser = await User.find({});

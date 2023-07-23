@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     password: String,
     role: String,
     courses: Array,
+    file: {type: String, default: null}
 });
 
 const UserModel = mongoose.model('users', UserSchema);

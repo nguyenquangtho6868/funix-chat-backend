@@ -19,7 +19,7 @@ function route(app) {
   app.post("/add-user", AuthMiddleware.authLoginNoRole, userController.addUser);
 
   app.post("/reset-password", userController.resetPassword);
-
+  app.post('/edit-image-user',AuthMiddleware.authLoginNoRole,userController.editImageUser);
   app.delete(
     "/delete-user",
     AuthMiddleware.authLoginNoRole,
@@ -28,7 +28,6 @@ function route(app) {
   app.put(
     "/edit-user",
     AuthMiddleware.authLoginNoRole,
-
     userController.editUser
   );
   app.post(
