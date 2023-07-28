@@ -4,7 +4,7 @@ const AuthMiddleware = require("../middleware/authMiddleware");
 const CourseController = require("../controllers/CourseController");
 const NotificationController = require("../controllers/notificationController");
 const RoomChatController = require("../controllers/RoomChatController");
-
+const RateControler = require("../controllers/RateControler");
 function route(app) {
   // login and user
   app.post("/login", loginController.loginHandle);
@@ -86,6 +86,12 @@ function route(app) {
     AuthMiddleware.authLoginNoRole,
     NotificationController.getNotificationDetail
   );
-}
+  app.post("/postrate", RateControler.addRate);
+  app.post(
+    "/get-mentor-detail",
 
+    RateControler.getMentorDetail
+  );
+}
+//Rating
 module.exports = route;
