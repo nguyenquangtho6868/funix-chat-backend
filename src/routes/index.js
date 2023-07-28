@@ -5,6 +5,9 @@ const CourseController = require("../controllers/CourseController");
 const NotificationController = require("../controllers/notificationController");
 const RoomChatController = require("../controllers/RoomChatController");
 const RateControler = require("../controllers/RateControler");
+const path = require("path");
+const filePath = path.join(__dirname, "../public/index.ejs");
+
 function route(app) {
   // login and user
   app.post("/login", loginController.loginHandle);
@@ -14,11 +17,9 @@ function route(app) {
     userController.getListUser
   );
   app.post("/add-user", AuthMiddleware.authLoginNoRole, userController.addUser);
-  app.post(
-    "/add-listuser",
-    AuthMiddleware.authLoginNoRole,
-    userController.addListUser
-  );
+
+  app.post("/reset-password", userController.resetPassword);
+
   app.delete(
     "/delete-user",
     AuthMiddleware.authLoginNoRole,
@@ -26,6 +27,7 @@ function route(app) {
   );
   app.put(
     "/edit-user",
+    AuthMiddleware.authLoginNoRole,
 
     userController.editUser
   );

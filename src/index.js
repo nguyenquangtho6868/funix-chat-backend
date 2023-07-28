@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+
 require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -9,6 +10,11 @@ const Notification = require("./controllers/notificationController");
 const RoomChatController = require("./controllers/RoomChatController");
 const UserModel = require("./models/user");
 const http = require("http");
+app.set("public engine", "ejs");
+app.use(express.static(__dirname + "/public"));
+
+// Lấy đường dẫn thư mục hiện tại
+
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: {
