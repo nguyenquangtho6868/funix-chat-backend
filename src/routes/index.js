@@ -57,7 +57,8 @@ function route(app) {
     AuthMiddleware.authLoginNoRole,
     CourseController.deleteCourse
   );
-  // app.delete('/edit-course',AuthMiddleware.authLoginNoRole,CourseController.editUser);
+  
+  app.post('/get-history-room-chat',AuthMiddleware.authLoginNoRole,RoomChatController.getHistoryRoomChatWithUserID);
 
   // Chat room
   app.post(
