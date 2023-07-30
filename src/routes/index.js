@@ -4,7 +4,6 @@ const AuthMiddleware = require("../middleware/authMiddleware");
 const CourseController = require("../controllers/CourseController");
 const NotificationController = require("../controllers/notificationController");
 const RoomChatController = require("../controllers/RoomChatController");
-const RateControler = require("../controllers/RateControler");
 const path = require("path");
 const filePath = path.join(__dirname, "../public/index.ejs");
 
@@ -88,12 +87,6 @@ function route(app) {
     AuthMiddleware.authLoginNoRole,
     NotificationController.getNotificationDetail
   );
-  app.post("/postrate", RateControler.addRate);
-  app.post(
-    "/get-mentor-detail",
-
-    RateControler.getMentorDetail
-  );
+  app.post("/post-rate-room-chat", RoomChatController.postRateRoomChat);
 }
-//Rating
 module.exports = route;

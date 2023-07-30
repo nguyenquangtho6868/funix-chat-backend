@@ -161,13 +161,14 @@ class RoomChatController {
 
     async endRoomChatDetail(req, res) {
         try {
-            const { id } = req.body;
-            if (!id) {
+            const { end_date,roomId, status } = req.body;
+            console.log(end_date,roomId, status);
+            if (!roomId) {
                 return res
                     .status(422)
                     .json({ message: "Have no ID!", statusCode: 500 });
             }
-            await RoomChatModel.updateOne({ _id: id }, { is_history: true });
+            await RoomChatModel.updateOne({ _id: roomId }, { is_history: true, end_date, status });
             res.json({ message: "End room chat Successfully!", statusCode: 200 });
         } catch (e) {
             res.status(422).json(e);
@@ -180,13 +181,31 @@ class RoomChatController {
             if (!userId) {
                 return res.status(422).json({ message: 'Have no ID!', statusCode: 500 });
             }
-            const getRoom = await RoomChatModel.find({ users: { $elemMatch: { $eq: userId } }, is_history: true }).populate('users');
-            console.log(getRoom);
+            const getRoom = await RoomChatModel.find({ users: { $elemMatch: { $eq: userId } }, is_history: true }).populate(['users','courses']);
             if (getRoom) {
                 res.json({ message: 'Get history chat Successfully!', data: getRoom, statusCode: 200 });
             } else {
                 res.json({ message: 'Get history chat Failed!', data: getRoom, statusCode: 500 });
             }
+        }
+        catch (e) {
+            res.status(422).json(e);
+        }
+    }
+
+    async postRateRoomChat(req, res) {
+        try {
+            const { roomId,rate } = req.body;
+            if (!roomId) {
+                return res.status(422).json({ message: 'Have no room ID!', statusCode: 500 });
+            }
+            console.log(rate);
+            await RoomChatModel.updateOne({ _id: roomId }, {
+                rate: rate
+            })
+            const getRoom = await RoomChatModel.findOne({ _id: roomId });
+            console.log(getRoom);
+            res.json({ message: 'Update rate chat Successfully!', statusCode: 200 });
         }
         catch (e) {
             res.status(422).json(e);
