@@ -80,6 +80,11 @@ function route(app) {
     AuthMiddleware.authLoginNoRole,
     RoomChatController.getRoomCheckUserId
   );
+  app.post(
+    "/get-message-history-room-chat",
+    AuthMiddleware.authLoginNoRole,
+    RoomChatController.getMessagesHistoryWithIdRoomChat
+  );
 
   // Notification
   app.post(

@@ -211,6 +211,21 @@ class RoomChatController {
             res.status(422).json(e);
         }
     }
+
+    
+    async getMessagesHistoryWithIdRoomChat(req, res) {
+        try {
+            const { roomId } = req.body;
+            if (!roomId) {
+                return res.status(422).json({ message: 'Have no room!', statusCode: 500 });
+            }
+            const messages = await MessageModel.find({ room: roomId }).populate('sender');
+            res.json({ message: 'Get history chat Successfully!',data: messages, statusCode: 200 });
+        }
+        catch (e) {
+            res.status(422).json(e);
+        }
+    }
 }
 
 module.exports = new RoomChatController();
