@@ -49,8 +49,8 @@ const addUser = async (userId, socketId) => {
 const filterUser = async (data) => {
   const newUsers = users.filter(
     (obj) =>
-      obj.user.courses?.some((item) => item._id === data.courseId) &&
-      obj.user.role !== "STUDENT"
+      obj.user?.courses?.some((item) => item._id === data.courseId) &&
+      obj.user?.role !== "STUDENT"
   );
   io.emit(`get-users-filter/${data.userId}`, newUsers);
 };
