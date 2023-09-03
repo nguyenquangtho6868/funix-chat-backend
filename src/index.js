@@ -7,6 +7,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const router = require("./routes/index");
 const Notification = require("./controllers/notificationController");
+const RoomChatModel = require("./models/roomChat");
 const RoomChatController = require("./controllers/RoomChatController");
 const UserModel = require("./models/user");
 const http = require("http");
@@ -43,7 +44,6 @@ const addUser = async (userId, socketId) => {
   const getUserDetail = await UserModel.findOne({ _id: userId });
   !users.some((item) => item.user?._id == userId) &&
     users.push({ user: getUserDetail, socketId });
-  console.log(users);
 };
 
 const filterUser = async (data) => {
@@ -77,7 +77,7 @@ mongoose
       });
 
       socket.on("mentor-support-now", (data) => {
-        RoomChatController.addRoomChat(data, io);
+        RoomChatController.addRoomChat(data, io, socket);
       });
 
       socket.on("send-message", (data) => {

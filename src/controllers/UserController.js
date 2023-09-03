@@ -19,6 +19,7 @@ class UserController {
   async addUser(req, res) {
     try {
       const { username, email, role, courses } = req.body;
+      console.log(courses);
       const user = await User.findOne({ email });
       if (user) {
         return res
@@ -107,15 +108,17 @@ class UserController {
 
   async editImageUser(req, res) {
     try {
-        const { user,url } = req.body;
-        await User.updateOne({_id: user. _id}, {
-            ...user,
-            file: url
-        })
-        res.json({message: 'Edit image User Successfully!', statusCode: 200});
-    }
-    catch (e) {
-        res.status(422).json(e)
+      const { user, url } = req.body;
+      await User.updateOne(
+        { _id: user._id },
+        {
+          ...user,
+          file: url,
+        }
+      );
+      res.json({ message: "Edit image User Successfully!", statusCode: 200 });
+    } catch (e) {
+      res.status(422).json(e);
     }
   }
 

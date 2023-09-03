@@ -18,7 +18,11 @@ function route(app) {
   app.post("/add-user", AuthMiddleware.authLoginNoRole, userController.addUser);
 
   app.post("/reset-password", userController.resetPassword);
-  app.post('/edit-image-user',AuthMiddleware.authLoginNoRole,userController.editImageUser);
+  app.post(
+    "/edit-image-user",
+    AuthMiddleware.authLoginNoRole,
+    userController.editImageUser
+  );
   app.delete(
     "/delete-user",
     AuthMiddleware.authLoginNoRole,
@@ -56,8 +60,13 @@ function route(app) {
     AuthMiddleware.authLoginNoRole,
     CourseController.deleteCourse
   );
-  
-  app.post('/get-history-room-chat',AuthMiddleware.authLoginNoRole,RoomChatController.getHistoryRoomChatWithUserID);
+  app.put("/edit-course", CourseController.editCourse);
+
+  app.post(
+    "/get-history-room-chat",
+    AuthMiddleware.authLoginNoRole,
+    RoomChatController.getHistoryRoomChatWithUserID
+  );
 
   // Chat room
   app.post(
@@ -85,7 +94,8 @@ function route(app) {
     AuthMiddleware.authLoginNoRole,
     RoomChatController.getMessagesHistoryWithIdRoomChat
   );
-
+  app.get("/get-all-room-chat", RoomChatController.getAllRoomChat);
+  app.get("/get-fiter-room-chat", RoomChatController.getFilterRoomChat);
   // Notification
   app.post(
     "/get-list-notification",
