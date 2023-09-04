@@ -316,8 +316,8 @@ class RoomChatController {
   }
   async getFilterRoomChat(req, res) {
     try {
-      const { mentor, xter, from, to, status } = req.query;
-      console.log(req.query);
+      const { mentor, xter, code, from, to, status } = req.query;
+      console.log(code);
       const data = await RoomChatModel.find()
         .sort({ start_date: -1 })
         .populate({
@@ -350,20 +350,41 @@ class RoomChatController {
               return false;
             })
           : filteredMentor;
-      const filteredFrom =
-        from !== ""
+      const filteredCode =
+        code !== ""
           ? filteredXter.filter((item) => {
-              if (item.start_date) {
-                return item.start_date >= from;
+              if (item.users && item.users.length > 0 && item.users[0].email) {
+                return item.courses.code === code;
               }
               return false;
             })
           : filteredXter;
+      //console.log(data.map((d) => d.courses.code));
+      console.log(filteredCode);
+
+      const filteredFrom =
+        from !== ""
+          ? filteredCode.filter((item) => {
+              console.log(
+                moment(item.start_date, "DD/MM/YYYY").format("YYYY/MM/DD")
+              );
+              if (item.start_date) {
+                return (
+                  moment(item.start_date, "DD/MM/YYYY").format("YYYY/MM/DD") >=
+                  moment(new Date(from)).format("YYYY/MM/DD")
+                );
+              }
+              return false;
+            })
+          : filteredCode;
       const filteredTo =
         to !== ""
           ? filteredFrom.filter((item) => {
               if (item.start_date) {
-                return to >= item.start_date.split(" ")[0];
+                return (
+                  moment(item.start_date, "DD/MM/YYYY").format("YYYY/MM/DD") <=
+                  moment(new Date(to)).format("YYYY/MM/DD")
+                );
               }
               return false;
             })
